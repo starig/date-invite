@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7eee6" />
+    <meta name="description" content="Карина, у меня есть одно маленькое приглашение для тебя. 7 ноября, 14:30." />
+    <title>Кариночка, пойдешь на свидание?</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="background-texture" aria-hidden="true"></div>
+    <div class="page-frame" aria-hidden="true"></div>
+
+    <header class="masthead">
+      <span class="masthead-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20S3 14.6 3 8.6C3 3.7 9.1 2.6 12 7c2.9-4.4 9-3.3 9 1.6C21 14.6 12 20 12 20Z" /></svg>ДЛЯ ТЕБЯ, КАРИНА</span>
+      <span class="masthead-note">маленькое приглашение с большими чувствами</span>
+    </header>
+
+    <main class="main" id="main">
+      <section class="invitation" id="invitation" aria-labelledby="invitation-title">
+        <div class="invitation-copy">
+          <p class="eyebrow"><span></span>У МЕНЯ К ТЕБЕ ОДИН ВОПРОС</p>
+          <h1 id="invitation-title"><em>Кариночка,</em><br /> пойдешь на<br /> свидание?</h1>
+          <p class="description">Давай сделаем этот ноябрьский день<br class="desktop-break" /> немного теплее. Только ты, я и время для нас.</p>
+          <div class="date-line">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="3" /><path d="M8 3v4m8-4v4M4 11h16m-11 5h6" /></svg>
+            <time datetime="2026-11-07T14:30">7 ноября <span>·</span> 14:30</time>
+          </div>
+          <div class="actions" id="actions">
+            <button class="button button-yes" id="yes-button" type="button"><span>Да, с удовольствием</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20S3 14.6 3 8.6C3 3.7 9.1 2.6 12 7c2.9-4.4 9-3.3 9 1.6C21 14.6 12 20 12 20Z" /></svg></button>
+            <div class="no-slot"><button class="button button-no" id="no-button" type="button">Не пойду</button></div>
+          </div>
+        </div>
+
+        <div class="keepsake" aria-hidden="true">
+          <svg class="little-heart heart-one" viewBox="0 0 52 54"><path d="M26 46C20 40 3 28 5 15 7 3 21 2 26 13 31 1 47 4 47 17 47 29 31 42 26 46Z" /></svg>
+          <svg class="little-heart heart-two" viewBox="0 0 52 54"><path d="M26 46C20 40 3 28 5 15 7 3 21 2 26 13 31 1 47 4 47 17 47 29 31 42 26 46Z" /></svg>
+          <svg class="sparkle sparkle-one" viewBox="0 0 32 32"><path d="M16 2v28M2 16h28M6 6l20 20M26 6 6 26" /></svg>
+          <svg class="sparkle sparkle-two" viewBox="0 0 32 32"><path d="M16 2v28M2 16h28" /></svg>
+
+          <div class="envelope-back"></div>
+          <div class="date-card">
+            <div class="date-card-top"><span>ПРИГЛАШЕНИЕ</span><svg viewBox="0 0 24 24"><path d="M12 20S3 14.6 3 8.6C3 3.7 9.1 2.6 12 7c2.9-4.4 9-3.3 9 1.6C21 14.6 12 20 12 20Z" /></svg></div>
+            <span class="date-card-day">07</span>
+            <span class="date-card-month">НОЯБРЯ</span>
+            <div class="date-card-bottom"><span>СУББОТА</span><span>14:30</span></div>
+          </div>
+          <div class="envelope-front"><div class="envelope-fold fold-left"></div><div class="envelope-fold fold-right"></div><div class="envelope-fold fold-bottom"></div></div>
+          <div class="wax-seal"><svg viewBox="0 0 48 48"><path d="M24 34S12 27 12 19c0-7 9-8 12-2 3-6 12-5 12 2 0 8-12 15-12 15Z" /></svg></div>
+          <div class="handwritten-note">этот день — для нас<svg viewBox="0 0 140 60"><path d="M4 8c37 34 68 30 109 9m-8-6 12 5-5 12" /></svg></div>
+        </div>
+      </section>
+
+      <section class="confirmation" id="confirmation" aria-labelledby="confirmation-title" hidden>
+        <div class="confirmation-heart" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M50 84S12 61 12 36C12 15 38 11 50 30c12-19 38-15 38 6 0 25-38 48-38 48Z" /></svg><span class="heart-glint">✧</span></div>
+        <p class="eyebrow confirmation-eyebrow">ЭТО БУДЕТ ПРЕКРАСНЫЙ ДЕНЬ</p>
+        <h2 id="confirmation-title" tabindex="-1"><em>Отлично,</em><br /> тогда жду тебя<br /> готовой в <span class="ready-time">13:50</span></h2>
+        <div class="confirmation-rule"><span></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20S3 14.6 3 8.6C3 3.7 9.1 2.6 12 7c2.9-4.4 9-3.3 9 1.6C21 14.6 12 20 12 20Z" /></svg><span></span></div>
+        <p class="confirmation-note">7 ноября. У нас с тобой свидание.</p>
+      </section>
+    </main>
+
+    <footer class="footer"><span>ОДИН ДЕНЬ. ТОЛЬКО МЫ.</span><span class="footer-heart" aria-hidden="true">♡</span><span>С ПРЕДВКУШЕНИЕМ ВСТРЕЧИ</span></footer>
+    <div class="heart-particles" id="heart-particles" aria-hidden="true"></div>
+    <p class="sr-only" id="response-status" role="status" aria-live="polite"></p>
+  </body>
+</html>
