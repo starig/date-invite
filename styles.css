@@ -26,7 +26,7 @@ button:focus-visible { outline: 3px solid var(--red); outline-offset: 6px; }
 .masthead-mark svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.25; }
 .masthead-note { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: 15px; color: var(--muted); }
 .main { width: 100%; max-width: 1260px; margin: auto; padding: 55px 6.3% 58px; }
-.invitation { display: grid; grid-template-columns: 1.12fr 1fr; align-items: center; gap: 32px; }
+.invitation { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr); align-items: center; gap: 32px; }
 .invitation-copy { position: relative; z-index: 2; }
 .eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 26px; color: var(--muted); font-size: 9px; letter-spacing: 2.2px; font-weight: 500; line-height: 1.6; }
 .eyebrow > span { height: 1px; width: 28px; background: #ad8c82; }
@@ -37,6 +37,8 @@ h1 em { display: inline-block; margin-bottom: 5px; color: var(--red); font-weigh
 .date-line svg { height: 17px; width: 17px; stroke: var(--red); stroke-width: 1.4; }
 .date-line time > span { padding: 0 10px; color: #b49489; }
 .actions { display: flex; align-items: center; gap: 14px; margin-top: 33px; position: relative; }
+.actions.is-centered { grid-column: 1 / -1; width: 100%; justify-content: center; }
+.actions.is-centered .button-yes { flex-shrink: 0; }
 .button { min-height: 51px; padding: 0 24px; border-radius: 5px; cursor: pointer; font-size: 11px; font-weight: 500; letter-spacing: .15px; }
 .button-yes { --yes-scale: 1; position: relative; z-index: 10; display: inline-flex; align-items: center; justify-content: center; gap: 17px; min-width: 218px; border: 1px solid var(--red); color: #fff8f0; background: var(--red); box-shadow: 0 5px 12px #87313e12; transform: scale(var(--yes-scale)); transform-origin: center; transition: transform .25s ease, background .2s ease, box-shadow .2s ease; }
 .button-yes svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.5; flex: 0 0 auto; }
@@ -105,7 +107,7 @@ h2 em { color: var(--red); font-weight: 400; }
 @media (max-width: 1000px) and (min-width: 701px) {
   .masthead { min-height: 95px; }
   .main { padding: 52px 7% 60px; }
-  .invitation { gap: 4px; grid-template-columns: 1.1fr .9fr; }
+  .invitation { gap: 4px; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); }
   h1 { font-size: 66px; }
   .keepsake { width: 350px; transform: rotate(4deg) scale(.82); transform-origin: center; margin-left: -10px; }
   .button-yes { min-width: 195px; padding: 0 15px; gap: 10px; }
@@ -122,7 +124,7 @@ h2 em { color: var(--red); font-weight: 400; }
   .masthead-mark { font-size: 9px; letter-spacing: 2px; }
   .masthead-note { display: none; }
   .main { padding: 31px 7.5% 37px; }
-  .invitation { grid-template-columns: 1fr; gap: 0; text-align: center; }
+  .invitation { grid-template-columns: minmax(0, 1fr); gap: 0; text-align: center; }
   .invitation-copy { display: contents; }
   .eyebrow { justify-content: center; font-size: 8px; letter-spacing: 1.6px; margin-bottom: 18px; }
   .eyebrow > span { width: 18px; }

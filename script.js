@@ -4,13 +4,13 @@ const invitation = document.getElementById("invitation");
 const confirmation = document.getElementById("confirmation");
 const yesButton = document.getElementById("yes-button");
 const noButton = document.getElementById("no-button");
+const actions = document.getElementById("actions");
 const particleContainer = document.getElementById("heart-particles");
 const responseStatus = document.getElementById("response-status");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let yesScale = 1;
 let accepted = false;
 let roaming = false;
-let growthTimer;
 let resizeFrame;
 
 const heartSVG = '<svg viewBox="0 0 24 24"><path d="M12 21S2 15 2 8.5C2 3 8.8 1.8 12 6.7 15.2 1.8 22 3 22 8.5 22 15 12 21 12 21Z"/></svg>';
@@ -23,6 +23,26 @@ function viewportBounds() {
     width: viewport ? viewport.width : document.documentElement.clientWidth,
     height: viewport ? viewport.height : window.innerHeight,
   };
+}
+
+function fitYesButton(requestedScale = yesScale) {
+  const maxScale = actions.getBoundingClientRect().width / yesButton.offsetWidth;
+  yesScale = Math.min(requestedScale, maxScale);
+  yesButton.style.setProperty("--yes-scale", String(yesScale));
+  // Transforms do not reserve space, so keep the growing button in the layout.
+  actions.style.minHeight = `${Math.ceil(yesButton.offsetHeight * yesScale)}px`;
+}
+
+function centerYesButton() {
+  const previous = noButton.getBoundingClientRect();
+  noButton.classList.add("is-roaming");
+  noButton.style.left = `${previous.left}px`;
+  noButton.style.top = `${previous.top}px`;
+  // The agreement row spans both desktop columns and remains centered on mobile.
+  invitation.appendChild(noButton);
+  actions.querySelector(".no-slot").hidden = true;
+  actions.classList.add("is-centered");
+  invitation.appendChild(actions);
 }
 
 function moveNoButton() {
@@ -39,17 +59,24 @@ function moveNoButton() {
   const minY = bounds.top + padding;
   const maxX = Math.max(minX, bounds.left + bounds.width - width - padding);
   const maxY = Math.max(minY, bounds.top + bounds.height - height - padding);
-  const yes = yesButton.getBoundingClientRect();
-  const projectedScale = yesScale / Math.max(1, Number(yesButton.dataset.previousScale || 1));
-  const yesPaddingX = Math.max(14, (yes.width * (projectedScale - 1)) / 2 + 14);
-  const yesPaddingY = Math.max(14, (yes.height * (projectedScale - 1)) / 2 + 14);
+  const row = actions.getBoundingClientRect();
+  const currentYes = yesButton.getBoundingClientRect();
+  const centerX = row.left + row.width / 2;
+  const centerY = row.top + row.height / 2;
+  // Avoid both the current button and its final size while it animates.
+  const yes = {
+    left: Math.min(currentYes.left, centerX - yesButton.offsetWidth * yesScale / 2) - 14,
+    right: Math.max(currentYes.right, centerX + yesButton.offsetWidth * yesScale / 2) + 14,
+    top: Math.min(currentYes.top, centerY - yesButton.offsetHeight * yesScale / 2) - 14,
+    bottom: Math.max(currentYes.bottom, centerY + yesButton.offsetHeight * yesScale / 2) + 14,
+  };
   let destination;
   let bestDistance = -1;
 
   for (let attempt = 0; attempt < 100; attempt += 1) {
     const x = minX + Math.random() * (maxX - minX);
     const y = minY + Math.random() * (maxY - minY);
-    const overlapsYes = x < yes.right + yesPaddingX && x + width > yes.left - yesPaddingX && y < yes.bottom + yesPaddingY && y + height > yes.top - yesPaddingY;
+    const overlapsYes = x < yes.right && x + width > yes.left && y < yes.bottom && y + height > yes.top;
     if (overlapsYes) continue;
     const distance = Math.hypot(x - previous.left, y - previous.top);
     if (distance > bestDistance) {
@@ -67,14 +94,9 @@ function moveNoButton() {
 
 noButton.addEventListener("click", () => {
   if (accepted) return;
-  clearTimeout(growthTimer);
-  yesButton.dataset.previousScale = String(yesScale);
-  yesScale *= 1.1;
-  yesButton.style.setProperty("--yes-scale", String(yesScale));
+  if (!roaming) centerYesButton();
+  fitYesButton(yesScale * 1.1);
   moveNoButton();
-  growthTimer = setTimeout(() => {
-    yesButton.dataset.previousScale = String(yesScale);
-  }, 280);
 });
 
 function celebrate(origin) {
@@ -112,7 +134,6 @@ function celebrate(origin) {
 yesButton.addEventListener("click", () => {
   if (accepted) return;
   accepted = true;
-  clearTimeout(growthTimer);
   const button = yesButton.getBoundingClientRect();
   celebrate({ x: Math.min(window.innerWidth - 30, Math.max(30, button.left + button.width / 2)), y: Math.min(window.innerHeight * .75, Math.max(60, button.top + button.height / 2)) });
   invitation.hidden = true;
@@ -132,10 +153,15 @@ yesButton.addEventListener("click", () => {
   }
 });
 
-function keepNoButtonVisible() {
+function keepButtonsVisible() {
   if (!roaming || accepted) return;
   cancelAnimationFrame(resizeFrame);
   resizeFrame = requestAnimationFrame(() => {
+    // A smaller viewport must clamp immediately, without an overflowing transition.
+    yesButton.style.transition = "none";
+    fitYesButton();
+    yesButton.getBoundingClientRect();
+    yesButton.style.removeProperty("transition");
     const bounds = viewportBounds();
     const rect = noButton.getBoundingClientRect();
     const margin = 22;
@@ -146,6 +172,6 @@ function keepNoButtonVisible() {
   });
 }
 
-window.addEventListener("resize", keepNoButtonVisible);
-window.visualViewport?.addEventListener("resize", keepNoButtonVisible);
-window.visualViewport?.addEventListener("scroll", keepNoButtonVisible);
+window.addEventListener("resize", keepButtonsVisible);
+window.visualViewport?.addEventListener("resize", keepButtonsVisible);
+window.visualViewport?.addEventListener("scroll", keepButtonsVisible);
